@@ -12,15 +12,6 @@ class Client
         $this->client = $client;
     }
 
-    public function setUp()
-    {
-        if (!defined('\GEARMAN_SUCCESS')) {
-            define('\GEARMAN_SUCCESS', 0);
-        }
-        if (!defined('\GEARMAN_IO_WAIT')) {
-            define('\GEARMAN_IO_WAIT', 1);
-        }
-    }
     public function doHigh($name, $workload, $unique = null)
     {
         return $this->doAction(__FUNCTION__, $name, $workload, $unique);
