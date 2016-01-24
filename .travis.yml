@@ -12,6 +12,7 @@ before_install:
 
 install:
   # gearman
+  - sudo apt-get install libgearman
   - pecl install gearman-1.0.3
 
   ## Composer
