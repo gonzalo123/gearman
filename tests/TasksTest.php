@@ -10,7 +10,13 @@ class TasksTest extends \PHPUnit_Framework_TestCase
     {
         foreach ($this->actions as $action) {
             $callCount = 0;
-            $gearmanClient = $this->getMock('GearmanClient');
+            $methods= $this->actions;
+            $methods[] = 'returnCode';
+            $methods[] = 'setCompleteCallback';
+
+            $gearmanClient = $this->getMockBuilder('GearmanClient')
+                                  ->setMethods($methods)
+                                  ->getMock();
 
             $gearmanClient
                 ->expects($this->exactly(1))
