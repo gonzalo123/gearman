@@ -2,8 +2,8 @@
 
 use G\Gearman\Client;
 
-define(GEARMAN_SUCCESS, 0);
-define(GEARMAN_IO_WAIT, 1);
+define('GEARMAN_SUCCESS', 0);
+define('GEARMAN_IO_WAIT', 1);
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
