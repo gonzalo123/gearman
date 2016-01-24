@@ -46,7 +46,7 @@ class Client
     {
         $handle = $this->client->$action($name, json_encode($workload), $unique);
         $returnCode = $this->client->returnCode();
-        if ($returnCode != 0) { // 0 - GEARMAN_SUCCESS
+        if ($returnCode != \GEARMAN_SUCCESS) {
             throw new \Exception($this->client->error(), $returnCode);
         } else {
             if ($this->onSuccessCallback) {

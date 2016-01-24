@@ -6,11 +6,9 @@ class WorkerTest extends \PHPUnit_Framework_TestCase
 {
     public function test_simple_worker()
     {
-        $callCount = 0;
+        $callCount     = 0;
+        $gearmanWorker = $this->getMock('\GearmanWorker');
 
-        $gearmanWorker = $this->getMockBuilder('GearmanWorker')
-                              ->setMethods(['addFunction', 'work'])
-                              ->getMock();
         $gearmanWorker
             ->expects($this->any())
             ->method('work')
@@ -23,10 +21,7 @@ class WorkerTest extends \PHPUnit_Framework_TestCase
             ->method('addFunction')
             ->willReturnCallback(function ($name, callable $callback) {
                 $this->assertEquals('hello', $name);
-
-                $job = $this->getMockBuilder('GearmanJob')
-                            ->setMethods(['workload'])
-                            ->getMock();
+                $job = $this->getMock('\GearmanJob');
                 $job->expects($this->any())
                     ->method('workload')
                     ->willReturn(json_encode("myWorkload"));
@@ -41,7 +36,6 @@ class WorkerTest extends \PHPUnit_Framework_TestCase
         $worker->on('hello', function ($response, $job) use (&$callCount) {
             $callCount++;
             $this->assertInstanceOf('\GearmanJob', $job);
-
             return "HELLO {$response}";
         });
 

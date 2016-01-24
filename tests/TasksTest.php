@@ -6,34 +6,15 @@ class TasksTest extends \PHPUnit_Framework_TestCase
 {
     private $actions = ['addTask', 'addTaskHigh', 'addTaskLow', 'addTaskBackground', 'addTaskHighBackground', 'addTaskLowBackground'];
 
-    public function test_simple_tasks()
+    public function test_simple_task()
     {
         foreach ($this->actions as $action) {
-            $callCount = 0;
-            $methods= $this->actions;
-            $methods[] = 'data';
-            $methods[] = 'setCompleteCallback';
-            $methods[] = 'unique';
-
-            $gearmanClient = $this->getMockBuilder('GearmanClient')
-                                  ->setMethods($methods)
-                                  ->getMock();
+            $gearmanClient = $this->getMock('GearmanClient');
 
             $gearmanClient
-                ->expects($this->exactly(1))
-                ->method('setCompleteCallback')
-                ->willReturnCallback(function (callable $callback)  {
-                    $task = $this->getMock('\GearmanTask');
-                    $task->expects($this->any())
-                        ->method('data')
-                        ->willReturn("RESPONSE");
-
-                    $task->expects($this->any())
-                         ->method('unique')
-                         ->willReturn("uid1");
-
-                    call_user_func($callback, $task, ['CONTEXT']);
-                });
+                ->expects($this->any())
+                ->method('returnCode')
+                ->willReturn(\GEARMAN_SUCCESS);
 
             $gearmanClient
                 ->expects($this->exactly(3))
@@ -62,18 +43,15 @@ class TasksTest extends \PHPUnit_Framework_TestCase
 
             $tasks = new Tasks($gearmanClient);
 
-            $tasks->onSuccess(function (\GearmanTask $task, $context) use (&$callCount){
-                $this->assertEquals('RESPONSE', $task->data());
-                $this->assertEquals('uid1', $task->unique());
-                $this->assertEquals(['CONTEXT'], $context);
-                $callCount++;
+            $tasks->onSuccess(function (\GearmanTask $task, $context) {
+                $out = is_callable($context) ? $context($task) : $task->data();
+                echo "onSuccess response: " . $out . " id: {$task->unique()}\n";
             });
 
             $tasks->$action('hello1', "workload1", ['CONTEXT1'], 'uid1');
             $tasks->$action('hello2', [1, 2, 3], 'CONTEXT', 'uid2');
             $tasks->$action('hello3', "workload3", function () {}, 'uid3');
             $tasks->runTasks();
-            $this->assertEquals(1, $callCount);
         }
     }
 }
