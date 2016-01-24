@@ -6,8 +6,5 @@ php:
 
 script: phpunit --coverage-text
 
-before_install:
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.5" ]]; then composer require --dev --no-update phpunit/phpunit ~5; fi
-
 install:
-  - travis_retry composer install --no-interaction --ignore-platform-reqs
+  - composer install
