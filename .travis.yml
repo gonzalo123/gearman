@@ -6,17 +6,15 @@ php:
 
 script: phpunit --coverage-text
 
-services:
-  - postgresql
-
 before_install:
   - composer self-update
   - composer validate
 
 install:
   # gearman
-  - pecl install gearman
-  - pecl install ext-gearman
+  - sudo apt-get remove gearman-job-server
+  - sudo apt-get install gearman-job-server libgearman-dev
+  - printf "\n"| pecl install gearman-1.0.3
   ## Composer
   - composer install
 
