@@ -15,6 +15,9 @@
     "php": ">=5.6.0",
     "ext-gearman": "*"
   },
+  
+  "minimum-stability": "dev",
+
   "autoload": {
     "psr-4": {
       "G\\Gearman\\": "src/"
