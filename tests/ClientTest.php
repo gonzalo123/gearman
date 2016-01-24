@@ -10,7 +10,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         foreach ($this->actions as $action) {
             $callCount     = 0;
-            $gearmanClient = $this->getMock('GearmanClient', $this->actions);
+            $methods= $this->actions;
+            $methods[] = 'returnCode';
+
+            $gearmanClient = $this->getMockBuilder('GearmanClient')
+                           ->setMethods([$action])
+                           ->getMock();
 
             $gearmanClient
                 ->expects($this->any())
