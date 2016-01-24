@@ -12,8 +12,10 @@
     }
   ],
   "require": {
-    "php": ">=5.6.0",
-    "ext-gearman": "*"
+    "php": ">=5.6.0"
+  },
+  "suggest": {
+    "ext-gearman": "The PECL Gearman extension"
   },
 
   "minimum-stability": "dev",
