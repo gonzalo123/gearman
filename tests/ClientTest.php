@@ -8,19 +8,19 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function test_simple_client()
     {
+        $methods= $this->actions;
+        $methods[] = 'returnCode';
+        $gearmanClient = $this->getMockBuilder('GearmanClient')
+                              ->setMethods($methods)
+                              ->getMock();
+
+        $gearmanClient
+            ->expects($this->any())
+            ->method('returnCode')
+            ->willReturn(0);
+
         foreach ($this->actions as $action) {
             $callCount     = 0;
-            $methods= $this->actions;
-            $methods[] = 'returnCode';
-
-            $gearmanClient = $this->getMockBuilder('GearmanClient')
-                           ->setMethods([$action])
-                           ->getMock();
-
-            $gearmanClient
-                ->expects($this->any())
-                ->method('returnCode')
-                ->willReturn(0);
 
             $gearmanClient
                 ->expects($this->exactly(1))
