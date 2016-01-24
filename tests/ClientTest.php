@@ -2,9 +2,6 @@
 
 use G\Gearman\Client;
 
-define('GEARMAN_SUCCESS', 0);
-define('GEARMAN_IO_WAIT', 1);
-
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
     private $actions = ['doHigh', 'doLow', 'doNormal', 'doBackground', 'doHighBackground', 'doLowBackground'];
@@ -18,7 +15,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $gearmanClient
                 ->expects($this->any())
                 ->method('returnCode')
-                ->willReturn(GEARMAN_SUCCESS);
+                ->willReturn(0);
 
             $gearmanClient
                 ->expects($this->exactly(1))
@@ -56,7 +53,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $gearmanClient
                 ->expects($this->exactly(1))
                 ->method('returnCode')
-                ->willReturn(\GEARMAN_IO_WAIT);
+                ->willReturn(1);
 
             $gearmanClient
                 ->expects($this->exactly(1))
@@ -75,7 +72,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             } catch (\Exception $e) {
                 $callCount++;
                 $this->assertEquals("ERROR", $e->getMessage());
-                $this->assertEquals(GEARMAN_IO_WAIT, $e->getCode());
+                $this->assertEquals(1, $e->getCode());
             }
 
             $this->assertEquals(1, $callCount);
