@@ -20,6 +20,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $methods= $this->actions;
         $methods[] = 'returnCode';
+        $methods[] = 'setCompleteCallback';
+
         $gearmanClient = $this->getMockBuilder('GearmanClient')
                               ->setMethods($methods)
                               ->getMock();
