@@ -15,7 +15,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             define('\GEARMAN_IO_WAIT', 1);
         }
     }
-    
+
     public function test_simple_client()
     {
         $methods= $this->actions;
