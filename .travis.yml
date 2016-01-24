@@ -12,7 +12,7 @@ before_install:
 
 install:
   # gearman
-  - sudo apt-get install -y gearman-job-server
+  - sudo apt-get install gearman-job-server libgearman-dev
   - pecl install gearman
   ## Composer
   - composer install
