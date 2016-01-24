@@ -16,6 +16,7 @@ before_install:
 install:
   # gearman
   - pecl install gearman
+  - pecl install ext-gearman
   ## Composer
   - composer install
 
