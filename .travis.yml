@@ -10,3 +10,4 @@ script: phpunit --coverage-text
 
 install:
   - composer install
+  
