@@ -12,38 +12,39 @@ class Client
         $this->client = $client;
     }
 
-    public function doHigh($name, $workload, $unique = null)
+    public function doHigh($name, $workload=null, $unique = null)
     {
         return $this->doAction(__FUNCTION__, $name, $workload, $unique);
     }
 
-    public function doNormal($name, $workload, $unique = null)
+    public function doNormal($name, $workload=null, $unique = null)
     {
         return $this->doAction(__FUNCTION__, $name, $workload, $unique);
     }
 
-    public function doLow($name, $workload, $unique = null)
+    public function doLow($name, $workload=null, $unique = null)
     {
         return $this->doAction(__FUNCTION__, $name, $workload, $unique);
     }
 
-    public function doBackground($name, $workload, $unique = null)
+    public function doBackground($name, $workload=null, $unique = null)
     {
         return $this->doAction(__FUNCTION__, $name, $workload, $unique);
     }
 
-    public function doHighBackground($name, $workload, $unique = null)
+    public function doHighBackground($name, $workload=null, $unique = null)
     {
         return $this->doAction(__FUNCTION__, $name, $workload, $unique);
     }
 
-    public function doLowBackground($name, $workload, $unique = null)
+    public function doLowBackground($name, $workload=null, $unique = null)
     {
         return $this->doAction(__FUNCTION__, $name, $workload, $unique);
     }
 
-    private function doAction($action, $name, $workload, $unique)
+    private function doAction($action, $name, $workload=null, $unique)
     {
+        $workload = (string)$workload;
         $handle = $this->client->$action($name, json_encode($workload), $unique);
         $returnCode = $this->client->returnCode();
         if ($returnCode != \GEARMAN_SUCCESS) {
