@@ -8,17 +8,5 @@ php:
 
 script: phpunit --coverage-text
 
-addons:
-  apt:
-    packages:
-    - gearman-job-server
-    - libgearman-dev
-
 install:
-  - pecl install gearman-1.0.3
-  ## Composer
   - composer install
-
-before_script:
-  - gearmand -d
-
